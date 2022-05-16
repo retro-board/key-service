@@ -1,0 +1,79 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: retro-board
+  name: retro-board-key-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: key-service
+  namespace: retro-board
+  labels:
+    name: key-service
+    app: key-service
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: key-service
+  template:
+    metadata:
+      labels:
+        app: key-service
+        name: key-service
+    spec:
+      serviceAccountName: retro-board-key-service
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: key-service
+          image: containers.home.develbox.info/retro-board/key-service:latest
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DEVELOPMENT
+              value: "false"
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backend-vault-token
+                  key: token
+            - name: OWNER_ROLE
+              value: "company_owner"
+            - name: LEADER_ROLE
+              value: "retro_leader"
+            - name: USER_ROLE
+              value: "retro_user"
+            - name: RDS_DB
+              value: "retroboard"
+            - name: CLUSTER_ISSUER
+              value: "acme-prod"
+            - name: RDS_HOSTNAME
+              value: "kube-nas.home.develbox.info"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: key-service
+  namespace: retro-board
+  labels:
+    app: key-service
+    name: key-service
+spec:
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: key-service
