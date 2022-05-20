@@ -6,6 +6,7 @@ import (
 	"github.com/keloran/go-healthcheck"
 	"github.com/keloran/go-probe"
 	"net/http"
+	"os"
 
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	bugMiddleware "github.com/bugfixes/go-bugfixes/middleware"
@@ -18,6 +19,17 @@ import (
 
 type Service struct {
 	Config *config.Config
+}
+
+func CheckAPIKey(next http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("X-API-KEY") != os.Getenv("KEY_SERVICE_KEY") {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+		next.ServeHTTP(w, r)
+	}
+	return http.HandlerFunc(fn)
 }
 
 func (s *Service) Start() error {
@@ -54,6 +66,10 @@ func (s *Service) Start() error {
 		r.Use(c.Handler)
 		r.Use(bugMiddleware.BugFixes)
 		r.Use(httplog.RequestLogger(logger))
+
+		if !s.Config.Development {
+			r.Use(CheckAPIKey)
+		}
 
 		r.Post("/", key.NewKey(s.Config).CreateHandler)
 		r.Get("/", key.NewKey(s.Config).CheckHandler)
