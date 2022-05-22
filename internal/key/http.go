@@ -2,6 +2,7 @@ package key
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/go-chi/chi/v5"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -112,6 +113,7 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
 	user_id := r.Header.Get("user_id")
 	if user_id == "" {
+		fmt.Printf("Headers: %+v\n", r.Header)
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user_id",
 		})
