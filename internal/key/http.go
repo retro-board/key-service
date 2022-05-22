@@ -29,10 +29,10 @@ func jsonResponse(w http.ResponseWriter, status int, data interface{}) {
 }
 
 func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("user_id")
+	user_id := r.Header.Get("user-id")
 	if user_id == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
-			Status: "missing user_id",
+			Status: "missing user-id",
 		})
 		return
 	}
@@ -76,11 +76,11 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("user_id")
+	user_id := r.Header.Get("user-id")
 
 	if user_id == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
-			Status: "missing user_id",
+			Status: "missing user-id",
 		})
 		return
 	}
@@ -111,11 +111,11 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("user_id")
+	user_id := r.Header.Get("user-id")
 	if user_id == "" {
 		fmt.Printf("Headers: %+v\n", r.Header)
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
-			Status: "missing user_id",
+			Status: "missing user-id",
 		})
 		return
 	}
