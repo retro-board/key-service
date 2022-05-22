@@ -2,7 +2,6 @@ package key
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/go-chi/chi/v5"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -29,7 +28,7 @@ func jsonResponse(w http.ResponseWriter, status int, data interface{}) {
 }
 
 func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("user-id")
+	user_id := r.Header.Get("X-User-ID")
 	if user_id == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
@@ -76,8 +75,7 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("user-id")
-
+	user_id := r.Header.Get("X-User-ID")
 	if user_id == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
@@ -111,9 +109,8 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("user-id")
+	user_id := r.Header.Get("X-User-ID")
 	if user_id == "" {
-		fmt.Printf("Headers: %+v\n", r.Header)
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
 		})
