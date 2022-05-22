@@ -71,15 +71,9 @@ func getKeycloakSecretsFromVault(c *Config, path string) (map[string]string, err
 	if err != nil {
 		return nil, err
 	}
-
-	results := make(map[string]string)
 	if len(kvs) == 0 {
 		return nil, errors.New("no secrets found")
 	}
 
-	for _, kv := range kvs {
-		results[kv.Key] = kv.Value
-	}
-
-	return results, nil
+	return KVStrings(kvs), nil
 }

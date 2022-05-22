@@ -10,20 +10,20 @@ setup: ## Get linting stuffs
 
 .PHONY: build-images
 build-images: ## Build the images
-	nerdctl build --platform=amd64,arm64 --tag containers.home.develbox.info/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --build-arg VERSION=0.1 --build-arg BUILD=${GIT_COMMIT} --build-arg SERVICE_NAME=${SERVICE_NAME} -f ./k8s/Dockerfile .
-	nerdctl tag containers.home.develbox.info/retro-board/${SERVICE_NAME}:${GIT_COMMIT} containers.home.develbox.info/retro-board/${SERVICE_NAME}:latest
+	nerdctl build --platform=amd64,arm64 --tag containers.chewedfeed.com/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --build-arg VERSION=0.1 --build-arg BUILD=${GIT_COMMIT} --build-arg SERVICE_NAME=${SERVICE_NAME} -f ./k8s/Dockerfile .
+	nerdctl tag containers.chewedfeed.com/retro-board/${SERVICE_NAME}:${GIT_COMMIT} containers.chewedfeed.com/retro-board/${SERVICE_NAME}:latest
 
 .PHONY: publish-images
 publish-images:
-	nerdctl push containers.home.develbox.info/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --all-platforms
-	nerdctl push containers.home.develbox.info/retro-board/${SERVICE_NAME}:latest --all-platforms
+	nerdctl push containers.chewedfeed.com/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --all-platforms
+	nerdctl push containers.chewedfeed.com/retro-board/${SERVICE_NAME}:latest --all-platforms
 
 .PHONY: build
 build: build-images
 
 .PHONY: deploy
 deploy:
-	kubectl set image deployment/${SERVICE_NAME} ${SERVICE_NAME}=containers.home.develbox.info/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --namespace=retro-board
+	kubectl set image deployment/${SERVICE_NAME} ${SERVICE_NAME}=containers.chewedfeed.com/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --namespace=retro-board
 
 .PHONY: build-deploy
 build-deploy: build publish-images deploy

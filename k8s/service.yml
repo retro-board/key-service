@@ -33,7 +33,7 @@ spec:
         - name: regcred
       containers:
         - name: key-service
-          image: containers.home.develbox.info/retro-board/key-service:latest
+          image: containers.chewedfeed.com/retro-board/key-service:latest
           imagePullPolicy: Always
           readinessProbe:
             httpGet:

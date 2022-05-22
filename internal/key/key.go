@@ -1,7 +1,6 @@
 package key
 
 import (
-	"context"
 	"github.com/retro-board/key-service/internal/config"
 	"math/rand"
 	"time"
@@ -9,7 +8,6 @@ import (
 
 type Key struct {
 	Config *config.Config
-	CTX    context.Context
 }
 
 type ServiceKey struct {
@@ -28,7 +26,9 @@ type UserKey struct {
 }
 
 func NewKey(config *config.Config) *Key {
-	return &Key{}
+	return &Key{
+		Config: config,
+	}
 }
 
 func (k *Key) generateServiceKey(n int) string {

@@ -26,17 +26,17 @@ func buildDatabase(c *Config) error {
 		return nil
 	}
 
-	pass, err := c.getVaultSecrets("database/creds/retro-board-backend")
+	creds, err := c.getVaultSecrets("database/creds/retro-board-backend")
 	if err != nil {
 		return err
 	}
 
-	if pass == nil {
+	if creds == nil {
 		return errors.New("no database password found")
 	}
 
-	rds.Password = pass["password"].(string)
-	rds.User = pass["username"].(string)
+	rds.Password = creds["password"].(string)
+	rds.User = creds["username"].(string)
 	c.Database = *rds
 
 	return nil

@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"github.com/caarlos0/env/v6"
-
 	vaultAPI "github.com/hashicorp/vault/api"
 )
 
@@ -76,4 +75,12 @@ func ParseKVSecrets(data map[string]interface{}) ([]KVSecret, error) {
 	}
 
 	return secrets, nil
+}
+
+func KVStrings(kvs []KVSecret) map[string]string {
+	results := make(map[string]string)
+	for _, kv := range kvs {
+		results[kv.Key] = kv.Value
+	}
+	return results
 }

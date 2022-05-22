@@ -8,7 +8,7 @@ import (
 type Config struct {
 	Local
 	Database
-	Rethink
+	Mongo
 	Vault
 	Keycloak
 }
@@ -24,7 +24,7 @@ func Build() (*Config, error) {
 	//	return nil, bugLog.Error(err)
 	//}
 
-	if err := buildRethink(cfg); err != nil {
+	if err := buildMongo(cfg); err != nil {
 		return nil, bugLog.Error(err)
 	}
 
