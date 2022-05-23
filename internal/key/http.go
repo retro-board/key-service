@@ -2,6 +2,7 @@ package key
 
 import (
 	"encoding/json"
+	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	"github.com/go-chi/chi/v5"
 	"net/http"
 	"time"
@@ -61,6 +62,7 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 			BillingService: keys.Billing,
 		},
 	}); err != nil {
+		bugLog.Info(err)
 		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{
 			Status: "internal error",
 		})
@@ -81,6 +83,7 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 
 	keys, err := NewMongo(k.Config).Get(user_id)
 	if err != nil {
+		bugLog.Info(err)
 		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{
 			Status: "internal error",
 		})
@@ -123,6 +126,7 @@ func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	keys, err := NewMongo(k.Config).Get(user_id)
 	if err != nil {
+		bugLog.Info(err)
 		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{
 			Status: "internal error",
 		})
