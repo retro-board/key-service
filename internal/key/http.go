@@ -3,7 +3,6 @@ package key
 import (
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 	"time"
 )
@@ -46,11 +45,8 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := NewMongo(k.Config).Create(DataSet{
-		UserID: user_id,
-		Created: primitive.Timestamp{
-			T: uint32(time.Now().Unix()),
-			I: 0,
-		},
+		UserID:    user_id,
+		Generated: time.Now().Unix(),
 		Keys: struct {
 			UserService    string `json:"user_service" bson:"user_service"`
 			RetroService   string `json:"retro_service" bson:"retro_service"`
@@ -75,7 +71,7 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("X-User-ID")
+	user_id := r.Header.Get("x-user-id")
 	if user_id == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
@@ -109,7 +105,7 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("X-User-ID")
+	user_id := r.Header.Get("x-user-id")
 	if user_id == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",

@@ -6,7 +6,6 @@ import (
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	"github.com/retro-board/key-service/internal/config"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"time"
@@ -25,9 +24,9 @@ func NewMongo(c *config.Config) *Mongo {
 }
 
 type DataSet struct {
-	UserID  string              `json:"user_id" bson:"user_id"`
-	Created primitive.Timestamp `json:"created" bson:"created"`
-	Keys    struct {
+	UserID    string `json:"user_id" bson:"user_id"`
+	Generated int64  `json:"generated" bson:"generated"`
+	Keys      struct {
 		UserService    string `json:"user_service" bson:"user_service"`
 		RetroService   string `json:"retro_service" bson:"retro_service"`
 		TimerService   string `json:"timer_service" bson:"timer_service"`
@@ -63,14 +62,10 @@ func (m *Mongo) Get(key string) (*DataSet, error) {
 		return nil, err
 	}
 
-	dataTime := time.Unix(int64(dataSet.Created.T), int64(dataSet.Created.I)).Unix()
+	dataTime := time.Unix(dataSet.Generated, 0).Unix()
 	minusTime := time.Now().Add(-time.Hour * 2).Unix()
 	plusTime := time.Now().Add(time.Hour * 2).Unix()
-
-	//fmt.Printf("dataTime: %d\nMinusTime: %d\nPlusTime: %d\n", dataTime, minusTime, plusTime)
-	//fmt.Printf("dataTime-MinusTime: %d\nPlusTime-dataTime: %d\n", dataTime-minusTime, plusTime-dataTime)
-
-	if minusTime-dataTime >= 0 && dataTime-plusTime <= 0 {
+	if dataTime >= minusTime && dataTime <= plusTime {
 		return &dataSet, nil
 	}
 
@@ -99,11 +94,12 @@ func (m *Mongo) Create(data DataSet) error {
 		m.CTX,
 		map[string]string{"user_id": data.UserID},
 		bson.D{{"$set", bson.D{
-			{"keys.user_service", data.Keys.UserService},
-			{"keys.retro_service", data.Keys.RetroService},
-			{"keys.timer_service", data.Keys.TimerService},
-			{"keys.company_service", data.Keys.CompanyService},
-			{"keys.billing_service", data.Keys.BillingService},
+			{Key: "generated", Value: time.Now().Unix()},
+			{Key: "keys.user_service", Value: data.Keys.UserService},
+			{Key: "keys.retro_service", Value: data.Keys.RetroService},
+			{Key: "keys.timer_service", Value: data.Keys.TimerService},
+			{Key: "keys.company_service", Value: data.Keys.CompanyService},
+			{Key: "keys.billing_service", Value: data.Keys.BillingService},
 		}}},
 		options.Update().SetUpsert(true))
 	if err != nil {
