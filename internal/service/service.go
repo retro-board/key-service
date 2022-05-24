@@ -2,11 +2,12 @@ package service
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/keloran/go-healthcheck"
 	"github.com/keloran/go-probe"
-	"net/http"
-	"os"
 
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	bugMiddleware "github.com/bugfixes/go-bugfixes/middleware"

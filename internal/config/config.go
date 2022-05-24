@@ -7,10 +7,8 @@ import (
 
 type Config struct {
 	Local
-	Database
 	Mongo
 	Vault
-	Keycloak
 }
 
 func Build() (*Config, error) {
@@ -19,10 +17,6 @@ func Build() (*Config, error) {
 	if err := env.Parse(cfg); err != nil {
 		return nil, bugLog.Error(err)
 	}
-
-	//if err := buildDatabase(cfg); err != nil {
-	//	return nil, bugLog.Error(err)
-	//}
 
 	if err := buildMongo(cfg); err != nil {
 		return nil, bugLog.Error(err)

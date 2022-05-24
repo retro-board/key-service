@@ -2,10 +2,11 @@ package key
 
 import (
 	"encoding/json"
-	bugLog "github.com/bugfixes/go-bugfixes/logs"
-	"github.com/go-chi/chi/v5"
 	"net/http"
 	"time"
+
+	bugLog "github.com/bugfixes/go-bugfixes/logs"
+	"github.com/go-chi/chi/v5"
 )
 
 type ResponseItem struct {
@@ -28,25 +29,25 @@ func jsonResponse(w http.ResponseWriter, status int, data interface{}) {
 }
 
 func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("X-User-ID")
-	if user_id == "" {
+	userID := r.Header.Get("X-User-ID")
+	if userID == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
 		})
 		return
 	}
 
-	keys := &ResponseItem{
-		Status:  "ok",
-		User:    k.generateServiceKey(25),
-		Retro:   k.generateServiceKey(25),
-		Timer:   k.generateServiceKey(25),
-		Company: k.generateServiceKey(25),
-		Billing: k.generateServiceKey(25),
+	keys, err := k.getKeys(25)
+	if err != nil {
+		bugLog.Info(err)
+		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{
+			Status: "internal error",
+		})
+		return
 	}
 
 	if err := NewMongo(k.Config).Create(DataSet{
-		UserID:    user_id,
+		UserID:    userID,
 		Generated: time.Now().Unix(),
 		Keys: struct {
 			UserService    string `json:"user_service" bson:"user_service"`
@@ -73,15 +74,15 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("x-user-id")
-	if user_id == "" {
+	userID := r.Header.Get("x-user-id")
+	if userID == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
 		})
 		return
 	}
 
-	keys, err := NewMongo(k.Config).Get(user_id)
+	keys, err := NewMongo(k.Config).Get(userID)
 	if err != nil {
 		bugLog.Info(err)
 		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{
@@ -108,8 +109,8 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
-	user_id := r.Header.Get("x-user-id")
-	if user_id == "" {
+	userID := r.Header.Get("x-user-id")
+	if userID == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
 		})
@@ -124,7 +125,7 @@ func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	keys, err := NewMongo(k.Config).Get(user_id)
+	keys, err := NewMongo(k.Config).Get(userID)
 	if err != nil {
 		bugLog.Info(err)
 		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{

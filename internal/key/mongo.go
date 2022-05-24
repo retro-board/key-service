@@ -2,13 +2,15 @@ package key
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"time"
+
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	"github.com/retro-board/key-service/internal/config"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"time"
 )
 
 type Mongo struct {
@@ -56,7 +58,7 @@ func (m *Mongo) Get(key string) (*DataSet, error) {
 	var dataSet DataSet
 	err = client.Database("keys").Collection("keys").FindOne(m.CTX, map[string]string{"user_id": key}).Decode(&dataSet)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
+		if errors.Is(err, mongo.ErrNoDocuments) {
 			return nil, nil
 		}
 		return nil, err
@@ -93,7 +95,7 @@ func (m *Mongo) Create(data DataSet) error {
 	_, err = client.Database("keys").Collection("keys").UpdateOne(
 		m.CTX,
 		map[string]string{"user_id": data.UserID},
-		bson.D{{"$set", bson.D{
+		bson.D{{Key: "$set", Value: bson.D{
 			{Key: "generated", Value: time.Now().Unix()},
 			{Key: "keys.user_service", Value: data.Keys.UserService},
 			{Key: "keys.retro_service", Value: data.Keys.RetroService},

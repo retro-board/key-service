@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 )
 
@@ -78,10 +79,8 @@ func buildLocalKeys(cfg *Config) error {
 		switch secret.Key {
 		case "jwt-secret":
 			cfg.Local.JWTSecret = secret.Value
-			break
 		case "company-token":
 			cfg.Local.TokenSeed = secret.Value
-			break
 		}
 	}
 
@@ -107,19 +106,14 @@ func buildServiceKeys(cfg *Config) error {
 		switch secret.Key {
 		case "retro":
 			cfg.Local.Services.RetroService.Key = secret.Value
-			break
 		case "user":
 			cfg.Local.Services.UserService.Key = secret.Value
-			break
 		case "company":
 			cfg.Local.Services.CompanyService.Key = secret.Value
-			break
 		case "key":
 			cfg.Local.Services.TimerService.Key = secret.Value
-			break
 		case "billing":
 			cfg.Local.Services.BillingService.Key = secret.Value
-			break
 		}
 	}
 

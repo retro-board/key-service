@@ -49,18 +49,22 @@ spec:
                 secretKeyRef:
                   name: backend-vault-token
                   key: token
-            - name: OWNER_ROLE
-              value: "company_owner"
-            - name: LEADER_ROLE
-              value: "retro_leader"
-            - name: USER_ROLE
-              value: "retro_user"
-            - name: RDS_DB
-              value: "retroboard"
-            - name: CLUSTER_ISSUER
-              value: "acme-prod"
-            - name: RDS_HOSTNAME
-              value: "kube-nas.home.develbox.info"
+            - name: MONGO_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: key-service-secrets
+                  key: MONGO_HOST
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: key-service-secrets
+                  key: MONGO_USER
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: key-service-secrets
+                  key: MONGO_PASS
+
 ---
 apiVersion: v1
 kind: Service

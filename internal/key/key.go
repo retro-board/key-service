@@ -1,9 +1,11 @@
 package key
 
 import (
-	"github.com/retro-board/key-service/internal/config"
-	"math/rand"
+	"crypto/rand"
+	"math/big"
 	"time"
+
+	"github.com/retro-board/key-service/internal/config"
 )
 
 type Key struct {
@@ -31,13 +33,49 @@ func NewKey(config *config.Config) *Key {
 	}
 }
 
-func (k *Key) generateServiceKey(n int) string {
-	rand.Seed(time.Now().UnixNano())
+func (k *Key) generateServiceKey(n int) (string, error) {
 	var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 	b := make([]rune, n)
 	for i := range b {
-		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+		j, err := rand.Int(rand.Reader, big.NewInt(int64(len(letterRunes))))
+		if err != nil {
+			return "", err
+		}
+
+		b[i] = letterRunes[j.Int64()]
 	}
-	return string(b)
+	return string(b), nil
+}
+
+func (k *Key) getKeys(n int) (*ResponseItem, error) {
+	userKey, err := k.generateServiceKey(n)
+	if err != nil {
+		return nil, err
+	}
+	retroKey, err := k.generateServiceKey(n)
+	if err != nil {
+		return nil, err
+	}
+	timerKey, err := k.generateServiceKey(n)
+	if err != nil {
+		return nil, err
+	}
+	companyKey, err := k.generateServiceKey(n)
+	if err != nil {
+		return nil, err
+	}
+	billingKey, err := k.generateServiceKey(n)
+	if err != nil {
+		return nil, err
+	}
+
+	return &ResponseItem{
+		Status:  "ok",
+		User:    userKey,
+		Retro:   retroKey,
+		Timer:   timerKey,
+		Company: companyKey,
+		Billing: billingKey,
+	}, nil
 }
