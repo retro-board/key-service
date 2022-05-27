@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"github.com/caarlos0/env/v6"
 
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 )
@@ -40,48 +41,18 @@ type Local struct {
 	Development bool `env:"DEVELOPMENT" envDefault:"false"`
 	Port        int  `env:"PORT" envDefault:"3000"`
 
-	Frontend      string `env:"FRONTEND_URL" envDefault:"retro-board.it"`
-	FrontendProto string `env:"FRONTEND_PROTO" envDefault:"https"`
-	JWTSecret     string `env:"JWT_SECRET" envDefault:"retro-board"`
-	TokenSeed     string `env:"TOKEN_SEED" envDefault:"retro-board"`
-
 	Services
 }
 
 func buildLocal(cfg *Config) error {
-	if err := buildLocalKeys(cfg); err != nil {
-		return bugLog.Errorf("failed to build local keys: %s", err.Error())
+	local := &Local{}
+	if err := env.Parse(local); err != nil {
+		return err
 	}
+	cfg.Local = *local
 
 	if err := buildServiceKeys(cfg); err != nil {
 		return bugLog.Errorf("failed to build service keys: %s", err.Error())
-	}
-
-	return nil
-}
-
-func buildLocalKeys(cfg *Config) error {
-	vaultSecrets, err := cfg.getVaultSecrets("kv/data/retro-board/local-keys")
-	if err != nil {
-		return err
-	}
-
-	if vaultSecrets == nil {
-		return fmt.Errorf("local keys not found in vault")
-	}
-
-	secrets, err := ParseKVSecrets(vaultSecrets)
-	if err != nil {
-		return err
-	}
-
-	for _, secret := range secrets {
-		switch secret.Key {
-		case "jwt-secret":
-			cfg.Local.JWTSecret = secret.Value
-		case "company-token":
-			cfg.Local.TokenSeed = secret.Value
-		}
 	}
 
 	return nil
