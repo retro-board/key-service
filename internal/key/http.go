@@ -37,6 +37,14 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	vaultKey := r.Header.Get("X-Service-Key")
+	if vaultKey == "" {
+		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
+			Status: "missing vault-key",
+		})
+		return
+	}
+
 	keys, err := k.getKeys(25)
 	if err != nil {
 		bugLog.Info(err)

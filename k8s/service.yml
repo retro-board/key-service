@@ -64,6 +64,11 @@ spec:
                 secretKeyRef:
                   name: key-service-secrets
                   key: MONGO_PASS
+            - name: ONE_PASSWORD_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: key-service-secrets
+                  key: ONE_PASSWORD_PATH
 
 ---
 apiVersion: v1

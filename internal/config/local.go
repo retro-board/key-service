@@ -42,6 +42,9 @@ type Local struct {
 	Development bool `env:"DEVELOPMENT" envDefault:"false"`
 	Port        int  `env:"PORT" envDefault:"3000"`
 
+	OnePasswordKey  string `env:"ONE_PASSWORD_KEY"`
+	OnePasswordPath string `env:"ONE_PASSWORD_PATH"`
+
 	Services
 }
 
@@ -55,7 +58,28 @@ func buildLocal(cfg *Config) error {
 	if err := buildServiceKeys(cfg); err != nil {
 		return bugLog.Errorf("failed to build service keys: %s", err.Error())
 	}
+	if err := buildServiceKey(cfg); err != nil {
+		return bugLog.Errorf("failed to build service key: %s", err.Error())
+	}
 
+	return nil
+}
+
+func buildServiceKey(cfg *Config) error {
+	onePasswordKeyData, err := cfg.getVaultSecrets(cfg.Local.OnePasswordPath)
+	if err != nil {
+		return err
+	}
+	secrets, err := ParseKVSecrets(onePasswordKeyData)
+	if err != nil {
+		return err
+	}
+	for _, secret := range secrets {
+		switch secret.Key {
+		case "password":
+			cfg.Local.OnePasswordKey = secret.Value
+		}
+	}
 	return nil
 }
 
