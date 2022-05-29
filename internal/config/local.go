@@ -48,24 +48,28 @@ type Local struct {
 	Services
 }
 
-func buildLocal(cfg *Config) error {
+func BuildLocal(cfg *Config) error {
 	local := &Local{}
 	if err := env.Parse(local); err != nil {
 		return err
 	}
 	cfg.Local = *local
 
-	if err := buildServiceKeys(cfg); err != nil {
+	if err := BuildServiceKeys(cfg); err != nil {
 		return bugLog.Errorf("failed to build service keys: %s", err.Error())
 	}
-	if err := buildServiceKey(cfg); err != nil {
+	if err := BuildServiceKey(cfg); err != nil {
 		return bugLog.Errorf("failed to build service key: %s", err.Error())
 	}
 
 	return nil
 }
 
-func buildServiceKey(cfg *Config) error {
+func BuildServiceKey(cfg *Config) error {
+	if cfg.Local.OnePasswordKey != "" {
+		return nil
+	}
+
 	onePasswordKeyData, err := cfg.getVaultSecrets(cfg.Local.OnePasswordPath)
 	if err != nil {
 		return err
@@ -79,7 +83,7 @@ func buildServiceKey(cfg *Config) error {
 	return nil
 }
 
-func buildServiceKeys(cfg *Config) error {
+func BuildServiceKeys(cfg *Config) error {
 	vaultSecrets, err := cfg.getVaultSecrets("kv/data/retro-board/api-keys")
 	if err != nil {
 		return err

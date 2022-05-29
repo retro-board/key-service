@@ -49,7 +49,7 @@ func (c *Config) getVaultSecrets(secretPath string) (map[string]interface{}, err
 	return GetVaultSecrets(c.Vault.Address, c.Vault.Token, secretPath)
 }
 
-func buildVault(c *Config) error {
+func BuildVault(c *Config) error {
 	v := &Vault{}
 
 	if err := env.Parse(v); err != nil {

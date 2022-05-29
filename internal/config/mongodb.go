@@ -12,7 +12,7 @@ type Mongo struct {
 	Password string `env:"MONGO_PASS" envDefault:""`
 }
 
-func buildMongo(c *Config) error {
+func BuildMongo(c *Config) error {
 	mongo := &Mongo{}
 
 	if err := env.Parse(mongo); err != nil {
