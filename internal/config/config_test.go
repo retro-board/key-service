@@ -9,6 +9,16 @@ import (
 )
 
 func TestServiceKey(t *testing.T) {
+	if os.Getenv("VAULT_ADDRESS") == "" {
+		t.Skip("VAULT_ADDRESS not set")
+	}
+	if os.Getenv("VAULT_TOKEN") == "" {
+		t.Skip("VAULT_TOKEN not set")
+	}
+	if os.Getenv("ONE_PASSWORD_KEY") == "" {
+		t.Skip("ONE_PASSWORD_KEY not set")
+	}
+
 	cfg := &config.Config{}
 
 	if err := env.Parse(cfg); err != nil {
