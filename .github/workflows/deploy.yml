@@ -16,7 +16,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: containers.chewedfeed.com/retro-board/key-service:latest
+          images: containers.chewedfeed.com/retro-board/key-service
           tags: |
             type=semver,pattern={{version}}
             type=sha
