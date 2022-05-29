@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/mrz1836/go-sanitize"
 	"time"
 
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
@@ -56,7 +57,7 @@ func (m *Mongo) Get(key string) (*DataSet, error) {
 	}()
 
 	var dataSet DataSet
-	err = client.Database("keys").Collection("keys").FindOne(m.CTX, map[string]string{"user_id": key}).Decode(&dataSet)
+	err = client.Database("keys").Collection("keys").FindOne(m.CTX, map[string]string{"user_id": sanitize.AlphaNumeric(key, false)}).Decode(&dataSet)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return nil, nil
@@ -94,7 +95,7 @@ func (m *Mongo) Create(data DataSet) error {
 
 	_, err = client.Database("keys").Collection("keys").UpdateOne(
 		m.CTX,
-		map[string]string{"user_id": data.UserID},
+		map[string]string{"user_id": sanitize.AlphaNumeric(data.UserID, false)},
 		bson.D{{Key: "$set", Value: bson.D{
 			{Key: "generated", Value: time.Now().Unix()},
 			{Key: "keys.user_service", Value: data.Keys.UserService},
