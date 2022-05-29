@@ -47,5 +47,5 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          build-args: SERVICE_NAME=key-service,VERSION=${{ version }},BUILD=${{ github.sha }}
+          build-args: SERVICE_NAME=key-service,VERSION=${{ github.ref }},BUILD=${{ github.sha }}
 
