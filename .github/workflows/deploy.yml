@@ -1,4 +1,5 @@
 name: Deploy
+description: Deploy image to the registry
 
 on:
   release:
@@ -47,4 +48,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
+          build-args:
+            SERVICE_NAME: key-service
+            SERVICE_VERSION: ${{ steps.meta.outputs.tags.0 }}
+            SERVICE_SHA: ${{ steps.meta.outputs.tags.1 }}
 
