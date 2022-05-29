@@ -74,7 +74,7 @@ func (s *Service) Start() error {
 
 		r.Post("/", key.NewKey(s.Config).CreateHandler)
 		r.Get("/", key.NewKey(s.Config).GetHandler)
-		r.Get("/{key}", key.NewKey(s.Config).CheckHandler)
+		r.Get("/{key}", key.NewKey(s.Config).ValidateHandler)
 	})
 
 	r.Get("/health", healthcheck.HTTP)

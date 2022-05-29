@@ -40,7 +40,7 @@ test: lint ## Test the app
 		-benchmem \
 		-timeout=120s \
 		-cover \
-		-coverprofile=./test/coverage.txt \
+		-coverprofile=./test_coverage.txt \
 		-bench=./... ./...
 
 .PHONY: mocks

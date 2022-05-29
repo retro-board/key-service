@@ -42,14 +42,14 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 			Status: "missing vault-key",
 		})
 		return
-	} else if !k.validateServiceKey(vaultKey) {
+	} else if !k.ValidateServiceKey(vaultKey) {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "invalid service key",
 		})
 		return
 	}
 
-	keys, err := k.getKeys(25)
+	keys, err := k.GetKeys(25)
 	if err != nil {
 		bugLog.Info(err)
 		jsonResponse(w, http.StatusInternalServerError, &ResponseItem{
@@ -99,7 +99,7 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 			Status: "missing vault-key",
 		})
 		return
-	} else if !k.validateServiceKey(vaultKey) {
+	} else if !k.ValidateServiceKey(vaultKey) {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "invalid service key",
 		})
@@ -133,23 +133,11 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // nolint: gocyclo
-func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
+func (k Key) ValidateHandler(w http.ResponseWriter, r *http.Request) {
 	userID := r.Header.Get("x-user-id")
 	if userID == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
-		})
-		return
-	}
-
-	if vaultKey := r.Header.Get("X-Service-Key"); vaultKey == "" {
-		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
-			Status: "missing vault-key",
-		})
-		return
-	} else if !k.validateServiceKey(vaultKey) {
-		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
-			Status: "invalid service key",
 		})
 		return
 	}

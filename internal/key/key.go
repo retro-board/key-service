@@ -33,7 +33,7 @@ func NewKey(config *config.Config) *Key {
 	}
 }
 
-func (k *Key) generateServiceKey(n int) (string, error) {
+func (k *Key) GenerateServiceKey(n int) (string, error) {
 	var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 	b := make([]rune, n)
@@ -48,24 +48,24 @@ func (k *Key) generateServiceKey(n int) (string, error) {
 	return string(b), nil
 }
 
-func (k *Key) getKeys(n int) (*ResponseItem, error) {
-	userKey, err := k.generateServiceKey(n)
+func (k *Key) GetKeys(n int) (*ResponseItem, error) {
+	userKey, err := k.GenerateServiceKey(n)
 	if err != nil {
 		return nil, err
 	}
-	retroKey, err := k.generateServiceKey(n)
+	retroKey, err := k.GenerateServiceKey(n)
 	if err != nil {
 		return nil, err
 	}
-	timerKey, err := k.generateServiceKey(n)
+	timerKey, err := k.GenerateServiceKey(n)
 	if err != nil {
 		return nil, err
 	}
-	companyKey, err := k.generateServiceKey(n)
+	companyKey, err := k.GenerateServiceKey(n)
 	if err != nil {
 		return nil, err
 	}
-	billingKey, err := k.generateServiceKey(n)
+	billingKey, err := k.GenerateServiceKey(n)
 	if err != nil {
 		return nil, err
 	}
@@ -80,6 +80,6 @@ func (k *Key) getKeys(n int) (*ResponseItem, error) {
 	}, nil
 }
 
-func (k *Key) validateServiceKey(key string) bool {
+func (k *Key) ValidateServiceKey(key string) bool {
 	return k.Config.Local.OnePasswordKey == key
 }
