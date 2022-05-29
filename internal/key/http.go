@@ -37,10 +37,14 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	vaultKey := r.Header.Get("X-Service-Key")
-	if vaultKey == "" {
+	if vaultKey := r.Header.Get("X-Service-Key"); vaultKey == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing vault-key",
+		})
+		return
+	} else if !k.validateServiceKey(vaultKey) {
+		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
+			Status: "invalid service key",
 		})
 		return
 	}
@@ -90,6 +94,18 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if vaultKey := r.Header.Get("X-Service-Key"); vaultKey == "" {
+		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
+			Status: "missing vault-key",
+		})
+		return
+	} else if !k.validateServiceKey(vaultKey) {
+		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
+			Status: "invalid service key",
+		})
+		return
+	}
+
 	keys, err := NewMongo(k.Config).Get(userID)
 	if err != nil {
 		bugLog.Info(err)
@@ -116,11 +132,24 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// nolint: gocyclo
 func (k Key) CheckHandler(w http.ResponseWriter, r *http.Request) {
 	userID := r.Header.Get("x-user-id")
 	if userID == "" {
 		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
 			Status: "missing user-id",
+		})
+		return
+	}
+
+	if vaultKey := r.Header.Get("X-Service-Key"); vaultKey == "" {
+		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
+			Status: "missing vault-key",
+		})
+		return
+	} else if !k.validateServiceKey(vaultKey) {
+		jsonResponse(w, http.StatusBadRequest, &ResponseItem{
+			Status: "invalid service key",
 		})
 		return
 	}

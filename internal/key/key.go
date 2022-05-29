@@ -79,3 +79,7 @@ func (k *Key) getKeys(n int) (*ResponseItem, error) {
 		Billing: billingKey,
 	}, nil
 }
+
+func (k *Key) validateServiceKey(key string) bool {
+	return k.Config.Local.OnePasswordKey == key
+}

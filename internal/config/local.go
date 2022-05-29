@@ -70,14 +70,10 @@ func buildServiceKey(cfg *Config) error {
 	if err != nil {
 		return err
 	}
-	secrets, err := ParseKVSecrets(onePasswordKeyData)
-	if err != nil {
-		return err
-	}
-	for _, secret := range secrets {
-		switch secret.Key {
-		case "password":
-			cfg.Local.OnePasswordKey = secret.Value
+
+	for ik, iv := range onePasswordKeyData {
+		if ik == "password" {
+			cfg.Local.OnePasswordKey = iv.(string)
 		}
 	}
 	return nil
