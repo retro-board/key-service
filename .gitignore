@@ -1,3 +1,4 @@
 .env
 k8s/secret.yml
 bin/
+test_coverage.txt
