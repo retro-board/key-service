@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 1
       - uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.38
+          version: v1.46
           args: --config ./k8s/golangci.yml
       - name: test
         run: go test -v -race -bench=./... -benchmem -timeout=120s -bench=./... ./...
