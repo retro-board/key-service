@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/mrz1836/go-sanitize"
 	"time"
+
+	"github.com/mrz1836/go-sanitize"
 
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	"github.com/retro-board/key-service/internal/config"
