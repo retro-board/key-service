@@ -8,7 +8,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/httplog v0.2.4
-	github.com/hashicorp/vault/api v1.7.1
+	github.com/hashicorp/vault/api v1.7.2
 	github.com/keloran/go-healthcheck v0.0.0-20210417224110-d3dcf2cc54ed
 	github.com/keloran/go-probe v0.0.0-20210417224119-539dae99a65e
 	github.com/mrz1836/go-sanitize v1.1.5
@@ -40,7 +40,7 @@ require (
 	github.com/hashicorp/go-version v1.2.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/vault/sdk v0.5.0 // indirect
+	github.com/hashicorp/vault/sdk v0.5.1 // indirect
 	github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/mattn/go-colorable v0.1.6 // indirect
