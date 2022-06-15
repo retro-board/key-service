@@ -28,6 +28,10 @@ type BillingService struct {
 	Key     string `env:"BILLING_SERVICE_KEY"`
 	Address string `env:"BILLING_SERVICE_ADDRESS" envDefault:"https://api.retro-board.it/v1/billing"`
 }
+type PermissionService struct {
+	Key     string `env:"PERMISSION_SERVICE_KEY"`
+	Address string `env:"PERMISSION_SERVICE_ADDRESS" envDefault:"https://api.retro-board.it/v1/permission"`
+}
 
 type Services struct {
 	UserService
@@ -35,6 +39,7 @@ type Services struct {
 	TimerService
 	RetroService
 	BillingService
+	PermissionService
 }
 
 type Local struct {
@@ -110,6 +115,8 @@ func BuildServiceKeys(cfg *Config) error {
 			cfg.Local.Services.TimerService.Key = secret.Value
 		case "billing":
 			cfg.Local.Services.BillingService.Key = secret.Value
+		case "permission":
+			cfg.Local.Services.PermissionService.Key = secret.Value
 		}
 	}
 

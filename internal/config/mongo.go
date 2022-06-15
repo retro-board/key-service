@@ -39,6 +39,7 @@ func BuildMongo(c *Config) error {
 	kvStrings := KVStrings(kvs)
 	mongo.Password = kvStrings["password"]
 	mongo.Username = kvStrings["username"]
+	mongo.Host = kvStrings["host"]
 	c.Mongo = *mongo
 
 	return nil

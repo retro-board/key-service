@@ -42,11 +42,9 @@ type DataSet struct {
 func (m *Mongo) Get(key string) (*DataSet, error) {
 	client, err := mongo.Connect(
 		m.CTX,
-		options.Client().ApplyURI(fmt.Sprintf(
-			"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority",
+		options.Client().ApplyURI(fmt.Sprintf(m.Config.Mongo.Host,
 			m.Config.Mongo.Username,
-			m.Config.Mongo.Password,
-			m.Config.Mongo.Host)),
+			m.Config.Mongo.Password)),
 	)
 	if err != nil {
 		return nil, err
