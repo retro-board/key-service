@@ -189,6 +189,8 @@ github.com/keloran/go-healthcheck v0.0.0-20210417224110-d3dcf2cc54ed h1:gxQptnKY
 github.com/keloran/go-healthcheck v0.0.0-20210417224110-d3dcf2cc54ed/go.mod h1:DzY3uibvW8rsW84uz8Va3JZXWRhM40JfmYAHmLxb+hE=
 github.com/keloran/go-healthcheck v1.0.1 h1:9SOdMWeRKzZfBjITNpZcTiBqwOTNXtXVWVYtnQ4HvcM=
 github.com/keloran/go-healthcheck v1.0.1/go.mod h1:y/BX0zm3gVij5D9eyFW1dlF2i0LJ1tQszRreVnwzejM=
+github.com/keloran/go-healthcheck v1.2.0 h1:cm8HkEXK7V+qiHAPTIyz6RdatRIYyPU+WwR60jh+mMg=
+github.com/keloran/go-healthcheck v1.2.0/go.mod h1:y/BX0zm3gVij5D9eyFW1dlF2i0LJ1tQszRreVnwzejM=
 github.com/keloran/go-probe v0.0.0-20210417224119-539dae99a65e h1:70yM0oAtuWz5fhqft4+UtI8ePHg7Haq3RtFVUFAZjE0=
 github.com/keloran/go-probe v0.0.0-20210417224119-539dae99a65e/go.mod h1:Hk25H2ouTKIXobbyi6ZejckQGNThFrQ+ZaG0cRN0wIw=
 github.com/klauspost/compress v1.13.6 h1:P76CopJELS0TiO2mebmnzgWaajssP/EszplttgQxcgc=
