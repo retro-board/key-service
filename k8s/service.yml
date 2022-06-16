@@ -69,6 +69,11 @@ spec:
                 secretKeyRef:
                   name: key-service-secrets
                   key: ONE_PASSWORD_PATH
+            - name: SERVICE_DEPENDENCIES
+              valueFrom:
+                secretKeyRef:
+                  name: key-service-secrets
+                  key: SERVICE_DEPENDENCIES
 
 ---
 apiVersion: v1
