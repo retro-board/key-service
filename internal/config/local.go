@@ -88,6 +88,7 @@ func BuildServiceKey(cfg *Config) error {
 	return nil
 }
 
+// nolint:gocyclo
 func BuildServiceKeys(cfg *Config) error {
 	vaultSecrets, err := cfg.getVaultSecrets("kv/data/retro-board/api-keys")
 	if err != nil {
