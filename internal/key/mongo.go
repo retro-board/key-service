@@ -39,13 +39,24 @@ type DataSet struct {
 	} `json:"keys" bson:"keys"`
 }
 
-func (m *Mongo) Get(key string) (*DataSet, error) {
+func (m *Mongo) getConnection() (*mongo.Client, error) {
 	client, err := mongo.Connect(
 		m.CTX,
-		options.Client().ApplyURI(fmt.Sprintf(m.Config.Mongo.Host,
+		options.Client().ApplyURI(fmt.Sprintf(
+			"mongodb+srv://%s:%s@%s",
 			m.Config.Mongo.Username,
-			m.Config.Mongo.Password)),
+			m.Config.Mongo.Password,
+			m.Config.Mongo.Host)),
 	)
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
+func (m *Mongo) Get(key string) (*DataSet, error) {
+	client, err := m.getConnection()
 	if err != nil {
 		return nil, err
 	}
@@ -75,14 +86,7 @@ func (m *Mongo) Get(key string) (*DataSet, error) {
 }
 
 func (m *Mongo) Create(data DataSet) error {
-	client, err := mongo.Connect(
-		m.CTX,
-		options.Client().ApplyURI(fmt.Sprintf(
-			"mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority",
-			m.Config.Mongo.Username,
-			m.Config.Mongo.Password,
-			m.Config.Mongo.Host)),
-	)
+	client, err := m.getConnection()
 	if err != nil {
 		return err
 	}

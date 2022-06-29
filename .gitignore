@@ -2,3 +2,4 @@
 k8s/secret.yml
 bin/
 test_coverage.txt
+http-client.private.env.json

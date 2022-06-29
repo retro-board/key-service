@@ -43,14 +43,15 @@ type Services struct {
 }
 
 type Local struct {
-	KeepLocal   bool `env:"LOCAL_ONLY" envDefault:"false"`
-	Development bool `env:"DEVELOPMENT" envDefault:"false"`
-	Port        int  `env:"PORT" envDefault:"3000"`
+	KeepLocal   bool `env:"LOCAL_ONLY" envDefault:"false" json:"keep_local,omitempty"`
+	Development bool `env:"DEVELOPMENT" envDefault:"false" json:"development,omitempty"`
+	HTTPPort    int  `env:"HTTP_PORT" envDefault:"3000" json:"port,omitempty"`
+	GRPCPort    int  `env:"GRPC_PORT" envDefault:"8001" json:"grpc_port,omitempty"`
 
-	OnePasswordKey  string `env:"ONE_PASSWORD_KEY"`
-	OnePasswordPath string `env:"ONE_PASSWORD_PATH"`
+	OnePasswordKey  string `env:"ONE_PASSWORD_KEY" json:"one_password_key,omitempty"`
+	OnePasswordPath string `env:"ONE_PASSWORD_PATH" json:"one_password_path,omitempty"`
 
-	Services
+	Services `json:"services"`
 }
 
 func BuildLocal(cfg *Config) error {

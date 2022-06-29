@@ -5,8 +5,10 @@ export
 
 .PHONY: setup
 setup: ## Get linting stuffs
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint
-	go get golang.org/x/tools/cmd/goimports
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint
+	go install golang.org/x/tools/cmd/goimports
+	go install google.golang.org/protobuf/cmd/protoc-gen-go
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
 .PHONY: build-images
 build-images: ## Build the images

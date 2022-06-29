@@ -41,6 +41,7 @@ spec:
               port: 3000
           ports:
             - containerPort: 3000
+            - containerPort: 8001
           env:
             - name: DEVELOPMENT
               value: "false"
@@ -91,5 +92,8 @@ spec:
     - port: 3000
       protocol: TCP
       targetPort: 3000
+    - port: 8001
+      protocol: TCP
+      targetPort: 8001
   selector:
     app: key-service
