@@ -167,7 +167,8 @@ func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidRe
 		r.CheckKey == keys.Keys.RetroService ||
 		r.CheckKey == keys.Keys.TimerService ||
 		r.CheckKey == keys.Keys.CompanyService ||
-		r.CheckKey == keys.Keys.BillingService {
+		r.CheckKey == keys.Keys.BillingService ||
+		r.CheckKey == keys.Keys.PermissionsService {
 		return &pb.ValidResponse{
 			Valid: true,
 		}, nil
