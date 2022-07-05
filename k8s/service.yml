@@ -41,7 +41,9 @@ spec:
               port: 3000
           ports:
             - containerPort: 3000
+              name: http
             - containerPort: 8001
+              name: grpc
           env:
             - name: DEVELOPMENT
               value: "false"
@@ -70,11 +72,6 @@ spec:
                 secretKeyRef:
                   name: key-service-secrets
                   key: ONE_PASSWORD_PATH
-            - name: SERVICE_DEPENDENCIES
-              valueFrom:
-                secretKeyRef:
-                  name: key-service-secrets
-                  key: SERVICE_DEPENDENCIES
             - name: "SERVICE_NAME"
               value: "key-service"
 
@@ -92,8 +89,10 @@ spec:
     - port: 3000
       protocol: TCP
       targetPort: 3000
+      name: http
     - port: 8001
       protocol: TCP
       targetPort: 8001
+      name: grpc
   selector:
     app: key-service

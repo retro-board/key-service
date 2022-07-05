@@ -12,7 +12,7 @@ require (
 	github.com/keloran/go-healthcheck v1.2.0
 	github.com/keloran/go-probe v1.0.0
 	github.com/mrz1836/go-sanitize v1.1.5
-	github.com/retro-board/protos v0.0.2
+	github.com/retro-board/protos v0.0.5
 	go.mongodb.org/mongo-driver v1.9.1
 	google.golang.org/grpc v1.47.0
 	google.golang.org/protobuf v1.28.0

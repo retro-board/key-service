@@ -799,6 +799,10 @@ github.com/retro-board/protos v0.0.0-20220628073353-2d7c9e355517 h1:NaYnUxUhgZjr
 github.com/retro-board/protos v0.0.0-20220628073353-2d7c9e355517/go.mod h1:pwmItucayx26ZkoQG04mEb42a4EpE8OnN88c5wV9a80=
 github.com/retro-board/protos v0.0.2 h1:oMYOax7vaSyn5WmMlMG0JA6QjZt64AVxqaI+a8rcZZE=
 github.com/retro-board/protos v0.0.2/go.mod h1:pwmItucayx26ZkoQG04mEb42a4EpE8OnN88c5wV9a80=
+github.com/retro-board/protos v0.0.4 h1:5x1lZGiBhFbORYeF06HPUK2kJyK55e/GODW2MypQzTc=
+github.com/retro-board/protos v0.0.4/go.mod h1:pwmItucayx26ZkoQG04mEb42a4EpE8OnN88c5wV9a80=
+github.com/retro-board/protos v0.0.5 h1:gt6Om9hsEBIbWtGNZgHswr5YnXiMwHMXmAtfn0ke2G0=
+github.com/retro-board/protos v0.0.5/go.mod h1:pwmItucayx26ZkoQG04mEb42a4EpE8OnN88c5wV9a80=
 github.com/rogpeppe/fastuuid v0.0.0-20150106093220-6724a57986af/go.mod h1:XWv6SoW27p1b0cqNHllgS5HIMJraePCO15w5zCzIWYg=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
