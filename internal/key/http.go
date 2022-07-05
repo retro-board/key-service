@@ -12,11 +12,12 @@ import (
 type ResponseItem struct {
 	Status string `json:"status"`
 
-	User    string `json:"user_service,omitempty"`
-	Retro   string `json:"retro_service,omitempty"`
-	Timer   string `json:"timer_service,omitempty"`
-	Company string `json:"company_service,omitempty"`
-	Billing string `json:"billing_service,omitempty"`
+	User        string `json:"user_service,omitempty"`
+	Retro       string `json:"retro_service,omitempty"`
+	Timer       string `json:"timer_service,omitempty"`
+	Company     string `json:"company_service,omitempty"`
+	Billing     string `json:"billing_service,omitempty"`
+	Permissions string `json:"permissions,omitempty"`
 }
 
 func jsonResponse(w http.ResponseWriter, status int, data interface{}) {
@@ -62,17 +63,19 @@ func (k Key) CreateHandler(w http.ResponseWriter, r *http.Request) {
 		UserID:    userID,
 		Generated: time.Now().Unix(),
 		Keys: struct {
-			UserService    string `json:"user_service" bson:"user_service"`
-			RetroService   string `json:"retro_service" bson:"retro_service"`
-			TimerService   string `json:"timer_service" bson:"timer_service"`
-			CompanyService string `json:"company_service" bson:"company_service"`
-			BillingService string `json:"billing_service" bson:"billing_service"`
+			UserService        string `json:"user_service" bson:"user_service"`
+			RetroService       string `json:"retro_service" bson:"retro_service"`
+			TimerService       string `json:"timer_service" bson:"timer_service"`
+			CompanyService     string `json:"company_service" bson:"company_service"`
+			BillingService     string `json:"billing_service" bson:"billing_service"`
+			PermissionsService string `json:"permissions_service" bson:"permissions_service"`
 		}{
-			UserService:    keys.User,
-			RetroService:   keys.Retro,
-			TimerService:   keys.Timer,
-			CompanyService: keys.Company,
-			BillingService: keys.Billing,
+			UserService:        keys.User,
+			RetroService:       keys.Retro,
+			TimerService:       keys.Timer,
+			CompanyService:     keys.Company,
+			BillingService:     keys.Billing,
+			PermissionsService: keys.Permissions,
 		},
 	}); err != nil {
 		bugLog.Info(err)
@@ -123,12 +126,13 @@ func (k Key) GetHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	jsonResponse(w, http.StatusOK, &ResponseItem{
-		Status:  "ok",
-		User:    keys.Keys.UserService,
-		Retro:   keys.Keys.RetroService,
-		Timer:   keys.Keys.TimerService,
-		Company: keys.Keys.CompanyService,
-		Billing: keys.Keys.BillingService,
+		Status:      "ok",
+		User:        keys.Keys.UserService,
+		Retro:       keys.Keys.RetroService,
+		Timer:       keys.Keys.TimerService,
+		Company:     keys.Keys.CompanyService,
+		Billing:     keys.Keys.BillingService,
+		Permissions: keys.Keys.PermissionsService,
 	})
 }
 
@@ -171,8 +175,14 @@ func (k Key) ValidateHandler(w http.ResponseWriter, r *http.Request) {
 	timerKey := keys.Keys.TimerService
 	companyKey := keys.Keys.CompanyService
 	billingKey := keys.Keys.BillingService
+	permissionsKey := keys.Keys.PermissionsService
 
-	if checkKey == userKey || checkKey == retroKey || checkKey == timerKey || checkKey == companyKey || checkKey == billingKey {
+	if checkKey == userKey ||
+		checkKey == retroKey ||
+		checkKey == timerKey ||
+		checkKey == companyKey ||
+		checkKey == billingKey ||
+		checkKey == permissionsKey {
 		jsonResponse(w, http.StatusOK, &ResponseItem{
 			Status: "ok",
 		})

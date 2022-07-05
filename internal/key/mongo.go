@@ -31,11 +31,12 @@ type DataSet struct {
 	UserID    string `json:"user_id" bson:"user_id"`
 	Generated int64  `json:"generated" bson:"generated"`
 	Keys      struct {
-		UserService    string `json:"user_service" bson:"user_service"`
-		RetroService   string `json:"retro_service" bson:"retro_service"`
-		TimerService   string `json:"timer_service" bson:"timer_service"`
-		CompanyService string `json:"company_service" bson:"company_service"`
-		BillingService string `json:"billing_service" bson:"billing_service"`
+		UserService        string `json:"user_service" bson:"user_service"`
+		RetroService       string `json:"retro_service" bson:"retro_service"`
+		TimerService       string `json:"timer_service" bson:"timer_service"`
+		CompanyService     string `json:"company_service" bson:"company_service"`
+		BillingService     string `json:"billing_service" bson:"billing_service"`
+		PermissionsService string `json:"permissions_service" bson:"permissions_service"`
 	} `json:"keys" bson:"keys"`
 }
 
@@ -106,6 +107,7 @@ func (m *Mongo) Create(data DataSet) error {
 			{Key: "keys.timer_service", Value: data.Keys.TimerService},
 			{Key: "keys.company_service", Value: data.Keys.CompanyService},
 			{Key: "keys.billing_service", Value: data.Keys.BillingService},
+			{Key: "keys.permissions_service", Value: data.Keys.PermissionsService},
 		}}},
 		options.Update().SetUpsert(true))
 	if err != nil {

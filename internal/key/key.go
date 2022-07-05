@@ -69,14 +69,19 @@ func (k *Key) GetKeys(n int) (*ResponseItem, error) {
 	if err != nil {
 		return nil, err
 	}
+	permissionKey, err := k.GenerateServiceKey(n)
+	if err != nil {
+		return nil, err
+	}
 
 	return &ResponseItem{
-		Status:  "ok",
-		User:    userKey,
-		Retro:   retroKey,
-		Timer:   timerKey,
-		Company: companyKey,
-		Billing: billingKey,
+		Status:      "ok",
+		User:        userKey,
+		Retro:       retroKey,
+		Timer:       timerKey,
+		Company:     companyKey,
+		Billing:     billingKey,
+		Permissions: permissionKey,
 	}, nil
 }
 
