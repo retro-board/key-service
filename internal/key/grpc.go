@@ -48,17 +48,19 @@ func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse
 		UserID:    r.UserId,
 		Generated: time.Now().Unix(),
 		Keys: struct {
-			UserService    string `json:"user_service" bson:"user_service"`
-			RetroService   string `json:"retro_service" bson:"retro_service"`
-			TimerService   string `json:"timer_service" bson:"timer_service"`
-			CompanyService string `json:"company_service" bson:"company_service"`
-			BillingService string `json:"billing_service" bson:"billing_service"`
+			UserService        string `json:"user_service" bson:"user_service"`
+			RetroService       string `json:"retro_service" bson:"retro_service"`
+			TimerService       string `json:"timer_service" bson:"timer_service"`
+			CompanyService     string `json:"company_service" bson:"company_service"`
+			BillingService     string `json:"billing_service" bson:"billing_service"`
+			PermissionsService string `json:"permissions_service" bson:"permissions_service"`
 		}{
-			UserService:    keys.User,
-			RetroService:   keys.Retro,
-			TimerService:   keys.Timer,
-			CompanyService: keys.Company,
-			BillingService: keys.Billing,
+			UserService:        keys.User,
+			RetroService:       keys.Retro,
+			TimerService:       keys.Timer,
+			CompanyService:     keys.Company,
+			BillingService:     keys.Billing,
+			PermissionsService: keys.Permissions,
 		},
 	}); err != nil {
 		bugLog.Info(err)
@@ -115,11 +117,12 @@ func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, erro
 	}
 
 	return &pb.KeyResponse{
-		User:    keys.Keys.UserService,
-		Retro:   keys.Keys.RetroService,
-		Timer:   keys.Keys.TimerService,
-		Company: keys.Keys.CompanyService,
-		Billing: keys.Keys.BillingService,
+		User:        keys.Keys.UserService,
+		Retro:       keys.Keys.RetroService,
+		Timer:       keys.Keys.TimerService,
+		Company:     keys.Keys.CompanyService,
+		Billing:     keys.Keys.BillingService,
+		Permissions: keys.Keys.PermissionsService,
 	}, nil
 }
 
