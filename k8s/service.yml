@@ -72,8 +72,8 @@ spec:
                 secretKeyRef:
                   name: key-service-secrets
                   key: ONE_PASSWORD_PATH
-            - name: "SERVICE_NAME"
-              value: "key-service"
+            - name: SERVICE_NAME
+              value: key-service
 
 ---
 apiVersion: v1

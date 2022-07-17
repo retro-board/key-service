@@ -155,6 +155,12 @@ func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidRe
 		}, nil
 	}
 
+	if s.Config.Local.Development {
+		return &pb.ValidResponse{
+			Valid: true,
+		}, nil
+	}
+
 	keys, err := NewMongo(k.Config).Get(r.UserId)
 	if err != nil {
 		return &pb.ValidResponse{

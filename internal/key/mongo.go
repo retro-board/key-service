@@ -68,7 +68,11 @@ func (m *Mongo) Get(key string) (*DataSet, error) {
 	}()
 
 	var dataSet DataSet
-	err = client.Database("keys").Collection("keys").FindOne(m.CTX, map[string]string{"user_id": sanitize.AlphaNumeric(key, false)}).Decode(&dataSet)
+	err = client.
+		Database("keys").
+		Collection("keys").
+		FindOne(m.CTX, map[string]string{"user_id": sanitize.AlphaNumeric(key, false)}).
+		Decode(&dataSet)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return nil, nil
