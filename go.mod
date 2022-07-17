@@ -15,7 +15,7 @@ require (
 	github.com/keloran/go-probe v1.0.0
 	github.com/mrz1836/go-sanitize v1.1.5
 	github.com/retro-board/protos v0.0.6
-	go.mongodb.org/mongo-driver v1.9.1
+	go.mongodb.org/mongo-driver v1.10.0
 	google.golang.org/grpc v1.47.0
 	google.golang.org/protobuf v1.28.0
 )
@@ -137,6 +137,7 @@ require (
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
+	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/moricho/tparallel v0.2.1 // indirect
 	github.com/nakabonne/nestif v0.3.1 // indirect
 	github.com/nbutton23/zxcvbn-go v0.0.0-20210217022336-fa2cb2858354 // indirect
