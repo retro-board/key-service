@@ -16,32 +16,36 @@ type Server struct {
 
 func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse, error) {
 	if r.UserId == "" {
-		bugLog.Info("missing user-id")
+		status := "missing user-id"
+		bugLog.Info(status)
 		return &pb.KeyResponse{
-			Status: "missing user-id",
+			Status: status,
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
-		bugLog.Info("missing service-key")
+		status := "missing service-key"
+		bugLog.Info(status)
 		return &pb.KeyResponse{
-			Status: "missing service-key",
+			Status: status,
 		}, nil
 	}
 
 	k := NewKey(s.Config)
 	if !k.ValidateServiceKey(r.ServiceKey) {
-		bugLog.Info("invalid service key")
+		status := "invalid service key"
+		bugLog.Info(status)
 		return &pb.KeyResponse{
-			Status: "invalid service key",
+			Status: status,
 		}, nil
 	}
 
 	keys, err := k.GetKeys(25)
 	if err != nil {
 		bugLog.Info(err)
+		status := "internal error, 1"
 		return &pb.KeyResponse{
-			Status: "internal error, 1",
+			Status: status,
 		}, nil
 	}
 
@@ -65,8 +69,9 @@ func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse
 		},
 	}); err != nil {
 		bugLog.Info(err)
+		status := "internal error, 2"
 		return &pb.KeyResponse{
-			Status: "internal error, 2",
+			Status: status,
 		}, nil
 	}
 
@@ -81,39 +86,44 @@ func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse
 
 func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, error) {
 	if r.UserId == "" {
-		bugLog.Info("missing user-id")
+		status := "missing user-id"
+		bugLog.Info(status)
 		return &pb.KeyResponse{
-			Status: "missing user-id",
+			Status: status,
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
-		bugLog.Info("missing service-key")
+		status := "missing service-key"
+		bugLog.Info(status)
 		return &pb.KeyResponse{
-			Status: "missing service-key",
+			Status: status,
 		}, nil
 	}
 
 	k := NewKey(s.Config)
 	if !k.ValidateServiceKey(r.ServiceKey) {
-		bugLog.Info("invalid service key")
+		status := "invalid service key"
+		bugLog.Info(status)
 		return &pb.KeyResponse{
-			Status: "invalid service key",
+			Status: status,
 		}, nil
 	}
 
 	keys, err := NewMongo(k.Config).Get(r.UserId)
 	if err != nil {
 		bugLog.Info(err)
+		status := "internal error, 3"
 		return &pb.KeyResponse{
-			Status: "internal error",
+			Status: status,
 		}, nil
 	}
 
 	if keys == nil {
+		status := "user not found"
 		bugLog.Info("no keys or expired for user")
 		return &pb.KeyResponse{
-			Status: "user not found",
+			Status: status,
 		}, nil
 	}
 
@@ -130,30 +140,36 @@ func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, erro
 //nolint:gocyclo
 func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidResponse, error) {
 	if r.UserId == "" {
-		bugLog.Info("missing user-id")
+		status := "missing user-id"
+		bugLog.Info(status)
 		return &pb.ValidResponse{
-			Status: "missing user-id",
+			Status: status,
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
-		bugLog.Info("missing service-key")
-		return &pb.ValidResponse{}, nil
+		status := "missing service-key"
+		bugLog.Info(status)
+		return &pb.ValidResponse{
+			Status: status,
+		}, nil
 	}
 
 	if r.CheckKey == "" {
-		bugLog.Info("missing check-key")
+		status := "missing check-key"
+		bugLog.Info(status)
 		return &pb.ValidResponse{
-			Status: "missing check-key",
+			Status: status,
 		}, nil
 	}
 
 	k := NewKey(s.Config)
 	if !k.ValidateServiceKey(r.ServiceKey) {
-		bugLog.Info("invalid service key")
+		status := "invalid service key"
+		bugLog.Info(status)
 		return &pb.ValidResponse{
 			Valid:  false,
-			Status: "invalid service key",
+			Status: status,
 		}, nil
 	}
 
@@ -165,9 +181,11 @@ func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidRe
 
 	keys, err := NewMongo(k.Config).Get(r.UserId)
 	if err != nil {
+		status := "internal error, 4"
+		bugLog.Info(err)
 		return &pb.ValidResponse{
 			Valid:  false,
-			Status: "internal error",
+			Status: status,
 		}, nil
 	}
 

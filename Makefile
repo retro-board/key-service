@@ -54,7 +54,7 @@ full: clean build fmt lint test ## Clean, build, make sure its formatted, linted
 
 .PHONY: lint
 lint: ## Lint
-	golangci-lint run --config k8s/golangci.yml
+	golangci-lint run --config ./k8s/golangci.yml
 
 .PHONY: fmt
 fmt: ## Formatting
