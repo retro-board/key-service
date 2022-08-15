@@ -14,29 +14,30 @@ type Server struct {
 	Config *config.Config
 }
 
+const MissingUserId = "missing user-id"
+const MissingServiceKey = "missing service-key"
+const InvalidServiceKey = "invalid service key"
+
 func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse, error) {
 	if r.UserId == "" {
-		status := "missing user-id"
-		bugLog.Info(status)
+		bugLog.Info(MissingUserId)
 		return &pb.KeyResponse{
-			Status: status,
+			Status: MissingUserId,
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
-		status := "missing service-key"
-		bugLog.Info(status)
+		bugLog.Info(MissingServiceKey)
 		return &pb.KeyResponse{
-			Status: status,
+			Status: MissingServiceKey,
 		}, nil
 	}
 
 	k := NewKey(s.Config)
 	if !k.ValidateServiceKey(r.ServiceKey) {
-		status := "invalid service key"
-		bugLog.Info(status)
+		bugLog.Info(InvalidServiceKey)
 		return &pb.KeyResponse{
-			Status: status,
+			Status: InvalidServiceKey,
 		}, nil
 	}
 
@@ -86,27 +87,24 @@ func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse
 
 func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, error) {
 	if r.UserId == "" {
-		status := "missing user-id"
-		bugLog.Info(status)
+		bugLog.Info(MissingUserId)
 		return &pb.KeyResponse{
-			Status: status,
+			Status: MissingUserId,
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
-		status := "missing service-key"
-		bugLog.Info(status)
+		bugLog.Info(MissingServiceKey)
 		return &pb.KeyResponse{
-			Status: status,
+			Status: MissingServiceKey,
 		}, nil
 	}
 
 	k := NewKey(s.Config)
 	if !k.ValidateServiceKey(r.ServiceKey) {
-		status := "invalid service key"
-		bugLog.Info(status)
+		bugLog.Info(InvalidServiceKey)
 		return &pb.KeyResponse{
-			Status: status,
+			Status: InvalidServiceKey,
 		}, nil
 	}
 
@@ -140,18 +138,16 @@ func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, erro
 //nolint:gocyclo
 func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidResponse, error) {
 	if r.UserId == "" {
-		status := "missing user-id"
-		bugLog.Info(status)
+		bugLog.Info(MissingUserId)
 		return &pb.ValidResponse{
-			Status: status,
+			Status: MissingUserId,
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
-		status := "missing service-key"
-		bugLog.Info(status)
+		bugLog.Info(MissingServiceKey)
 		return &pb.ValidResponse{
-			Status: status,
+			Status: MissingServiceKey,
 		}, nil
 	}
 
@@ -159,17 +155,16 @@ func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidRe
 		status := "missing check-key"
 		bugLog.Info(status)
 		return &pb.ValidResponse{
-			Status: status,
+			Status: &status,
 		}, nil
 	}
 
 	k := NewKey(s.Config)
 	if !k.ValidateServiceKey(r.ServiceKey) {
-		status := "invalid service key"
-		bugLog.Info(status)
+		bugLog.Info(InvalidServiceKey)
 		return &pb.ValidResponse{
 			Valid:  false,
-			Status: status,
+			Status: InvalidServiceKey,
 		}, nil
 	}
 
@@ -185,7 +180,7 @@ func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidRe
 		bugLog.Info(err)
 		return &pb.ValidResponse{
 			Valid:  false,
-			Status: status,
+			Status: &status,
 		}, nil
 	}
 
