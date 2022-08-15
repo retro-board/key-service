@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/vault/sdk/helper/pointerutil"
+
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	"github.com/retro-board/key-service/internal/config"
 	pb "github.com/retro-board/protos/generated/key/v1"
@@ -14,15 +16,15 @@ type Server struct {
 	Config *config.Config
 }
 
-const MissingUserId = "missing user-id"
+const MissingUserID = "missing user-id"
 const MissingServiceKey = "missing service-key"
 const InvalidServiceKey = "invalid service key"
 
 func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse, error) {
 	if r.UserId == "" {
-		bugLog.Info(MissingUserId)
+		bugLog.Info(MissingUserID)
 		return &pb.KeyResponse{
-			Status: MissingUserId,
+			Status: MissingUserID,
 		}, nil
 	}
 
@@ -87,9 +89,9 @@ func (s *Server) Create(c context.Context, r *pb.CreateRequest) (*pb.KeyResponse
 
 func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, error) {
 	if r.UserId == "" {
-		bugLog.Info(MissingUserId)
+		bugLog.Info(MissingUserID)
 		return &pb.KeyResponse{
-			Status: MissingUserId,
+			Status: MissingUserID,
 		}, nil
 	}
 
@@ -138,16 +140,16 @@ func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, erro
 //nolint:gocyclo
 func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidResponse, error) {
 	if r.UserId == "" {
-		bugLog.Info(MissingUserId)
+		bugLog.Info(MissingUserID)
 		return &pb.ValidResponse{
-			Status: MissingUserId,
+			Status: pointerutil.StringPtr(MissingUserID),
 		}, nil
 	}
 
 	if r.ServiceKey == "" {
 		bugLog.Info(MissingServiceKey)
 		return &pb.ValidResponse{
-			Status: MissingServiceKey,
+			Status: pointerutil.StringPtr(MissingServiceKey),
 		}, nil
 	}
 
@@ -164,7 +166,7 @@ func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidRe
 		bugLog.Info(InvalidServiceKey)
 		return &pb.ValidResponse{
 			Valid:  false,
-			Status: InvalidServiceKey,
+			Status: pointerutil.StringPtr(InvalidServiceKey),
 		}, nil
 	}
 
