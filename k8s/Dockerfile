@@ -19,7 +19,7 @@ RUN go build -ldflags "-w -s -X main.BuildVersion=${VERSION} -X main.BuildHash=$
 RUN cp ./bin/service /
 
 # Runner
-FROM alpine:3.15 AS Runner
+FROM alpine:3.16 AS Runner
 RUN apk update
 RUN apk upgrade
 RUN apk add ca-certificates && update-ca-certificates

@@ -2,6 +2,9 @@ package service
 
 import (
 	"fmt"
+	"net"
+	"net/http"
+
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	bugMiddleware "github.com/bugfixes/go-bugfixes/middleware"
 	"github.com/go-chi/chi/v5"
@@ -14,8 +17,6 @@ import (
 	pb "github.com/retro-board/protos/generated/key/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"net"
-	"net/http"
 
 	kitlog "github.com/go-kit/log"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"

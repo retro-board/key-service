@@ -2,10 +2,11 @@ package key
 
 import (
 	"context"
+	"time"
+
 	bugLog "github.com/bugfixes/go-bugfixes/logs"
 	"github.com/retro-board/key-service/internal/config"
 	pb "github.com/retro-board/protos/generated/key/v1"
-	"time"
 )
 
 type Server struct {
@@ -126,6 +127,7 @@ func (s *Server) Get(c context.Context, r *pb.GetRequest) (*pb.KeyResponse, erro
 	}, nil
 }
 
+//nolint:gocyclo
 func (s *Server) Validate(c context.Context, r *pb.ValidateRequest) (*pb.ValidResponse, error) {
 	if r.UserId == "" {
 		bugLog.Info("missing user-id")
