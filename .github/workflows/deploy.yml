@@ -20,6 +20,13 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=sha
+      - name: DeplyMeta
+        id: deploy-meta
+        uses: docker/metadata-action@v3
+        with:
+          images: containers.chewedfeed.com/retro-board/key-service
+          tags: |
+            type=semver,pattern={{version}}
       - name: QEMU
         id: qemu
         uses: docker/setup-qemu-action@v2
@@ -50,5 +57,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true
-          build-args: SERVICE_NAME=key-service,VERSION=${{ github.ref }},BUILD=${{ github.sha }}
+          build-args: SERVICE_NAME=key-service,VERSION=${{ github.ref_name }},BUILD=${{ github.sha }}
+      - name: kubectl-simple
+        uses: steebchen/kubectl@v2.0.0
+        with:
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          command: set image --record deployment/key-service key-service=containers.chewedfeed.com/retro-board/key-service:${{ steps.deploy-meta.outputs.tags }} --namespace=retro-board
 
