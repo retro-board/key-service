@@ -62,5 +62,5 @@ jobs:
         uses: steebchen/kubectl@v2.0.0
         with:
           config: ${{ secrets.KUBE_CONFIG_DATA }}
-          command: set image --record deployment/key-service key-service=containers.chewedfeed.com/retro-board/key-service:${{ steps.deploy-meta.outputs.tags }} --namespace=retro-board
+          command: set image --record deployment/key-service key-service=${{ steps.deploy-meta.outputs.tags }} --namespace=retro-board
 
