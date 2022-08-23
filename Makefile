@@ -27,6 +27,10 @@ build: build-images
 deploy:
 	kubectl set image deployment/${SERVICE_NAME} ${SERVICE_NAME}=containers.chewedfeed.com/retro-board/${SERVICE_NAME}:${GIT_COMMIT} --namespace=retro-board
 
+.PHONY: deploy-latest
+deploy-latest:
+	kubectl set image deployment/${SERVICE_NAME} ${SERVICE_NAME}=containers.chewedfeed.com/retro-board/${SERVICE_NAME}:latest --namespace=retro-board
+
 .PHONY: build-deploy
 build-deploy: build publish-images deploy
 
