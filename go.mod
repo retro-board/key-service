@@ -16,7 +16,7 @@ require (
 	github.com/mrz1836/go-sanitize v1.1.5
 	github.com/retro-board/protos v0.0.13
 	go.mongodb.org/mongo-driver v1.10.1
-	google.golang.org/grpc v1.48.0
+	google.golang.org/grpc v1.49.0
 )
 
 require (
