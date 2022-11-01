@@ -9,7 +9,7 @@ require (
 	github.com/go-chi/cors v1.2.1
 	github.com/go-kit/log v0.2.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
-	github.com/hashicorp/vault/api v1.8.1
+	github.com/hashicorp/vault/api v1.8.2
 	github.com/hashicorp/vault/sdk v0.6.1
 	github.com/keloran/go-healthcheck v1.2.0
 	github.com/keloran/go-probe v1.0.0
@@ -74,7 +74,7 @@ require (
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 	google.golang.org/genproto v0.0.0-20220815135757-37a418bb8959 // indirect
